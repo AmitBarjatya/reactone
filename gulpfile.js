@@ -15,6 +15,7 @@ var config ={
 	paths:{
 		html: './src/*.html',
 		js: './src/**/*.js',
+		images:'./src/images/*',
 		dist: './dist',
 		mainJs: './src/main.js',
 		css:[ 'node_modules/bootstrap/dist/css/bootstrap.min.css',
@@ -24,6 +25,15 @@ var config ={
 }
 
 //start a local dev server
+
+gulp.task('images',function(){
+	gulp.src(config.paths.images)
+		.pipe(gulp.dest(config.paths.dist + '/images'))
+		.pipe(connect.reload());
+
+	gulp.src('./src/favicon.ico')
+		.pipe(gulp.dest(config.paths.dist));
+});
 
 gulp.task('connect',function(){
 	connect.server({
@@ -72,4 +82,4 @@ gulp.task('watch',function(){
 	gulp.watch(config.paths.js,['js','lint']);
 });
 
-gulp.task('default',['html','css','lint','js','open','watch']);
+gulp.task('default',['html','css','images','lint','js','open','watch']);
